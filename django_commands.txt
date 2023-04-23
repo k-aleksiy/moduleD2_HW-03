@@ -1,0 +1,168 @@
+python -m venv venv 
+venv/scripts/activate
+cd NewsPaper
+pip install django
+python manage.py runserver
+python manage.py makemigrations
+python manage.py migrate
+py manage.py shell
+from news.models import *
+
+1)
+
+u1 = User.objects.create_user(username='Alex')
+u2 = User.objects.create_user(username='Anna')
+
+2)
+
+Author.objects.create(authorUser=u1)
+Author.objects.create(authorUser=u2)
+
+3)
+
+Category.objects.create(name='IT')
+Category.objects.create(name='Politics')
+Category.objects.create(name='Film industry')
+Category.objects.create(name='Sport')
+
+4)
+
+author1 = Author.objects.get(id=1)
+Post.objects.create(author=author1, categoryType = 'NW', title='title of the news', text='text from the first author')
+Post.objects.create(author=author1, categoryType = 'AR', title='title of the article1', text = 'text from the first author')
+Post.objects.create(author=author1, categoryType = 'AR', title='title of the article2', text = 'text from the first author')
+author2 = Author.objects.get(id=2)
+Post.objects.create(author=author2, categoryType = 'NW', title='title of the news', text='text from the second author')
+Post.objects.create(author=author2, categoryType = 'AR', title='title of the article1', text = 'text from the second author')
+Post.objects.create(author=author2, categoryType = 'AR', title='title of the article2', text = 'text from the second author')
+
+5)
+
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=3))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=3))
+Post.objects.get(id=3).postCategory.add(Category.objects.get(id=4))
+Post.objects.get(id=4).postCategory.add(Category.objects.get(id=4))
+Post.objects.get(id=4).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=5).postCategory.add(Category.objects.get(id=2))
+Post.objects.get(id=6).postCategory.add(Category.objects.get(id=1))
+
+6)
+
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='some comment to the first post from the author1')
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=2).authorUser, text='some comment to the first post from the author2')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=2).authorUser, text='some comment to the second post from the author2')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=1).authorUser, text='some comment to the second post from the author1')
+Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=2).authorUser, text='some comment to the third post from the author2')
+Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=1).authorUser, text='some comment to the third post from the author1')
+Comment.objects.create(commentPost=Post.objects.get(id=4), commentUser=Author.objects.get(id=1).authorUser, text='some comment to the fourth post from the author1')
+Comment.objects.create(commentPost=Post.objects.get(id=4), commentUser=Author.objects.get(id=2).authorUser, text='some comment to the fourth post from the author2')
+Comment.objects.create(commentPost=Post.objects.get(id=5), commentUser=Author.objects.get(id=2).authorUser, text='some comment to the fifth post from the author2')
+Comment.objects.create(commentPost=Post.objects.get(id=5), commentUser=Author.objects.get(id=1).authorUser, text='some comment to the fifth post from the author1')
+Comment.objects.create(commentPost=Post.objects.get(id=6), commentUser=Author.objects.get(id=1).authorUser, text='some comment to the sixth post from the author1')
+Comment.objects.create(commentPost=Post.objects.get(id=6), commentUser=Author.objects.get(id=2).authorUser, text='some comment to the sixth post from the author2')
+
+7)
+
+for _ in range(3):
+	Comment.objects.get(id=1).like()
+
+Comment.objects.get(id=1).dislike()
+for _ in range(4):
+	Comment.objects.get(id=2).like()
+ 
+Comment.objects.get(id=2).dislike()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+for _ in range(4):
+	Comment.objects.get(id=4).like()
+
+Comment.objects.get(id=4).dislike()
+for _ in range(4):
+	Comment.objects.get(id=5).like()
+
+Comment.objects.get(id=5).dislike()
+for _ in range(3):
+	Comment.objects.get(id=6).like()
+
+Comment.objects.get(id=6).dislike()
+for _ in range(5):
+	Comment.objects.get(id=7).like()
+
+Comment.objects.get(id=7).dislike()
+for _ in range(4):
+	Comment.objects.get(id=8).like()
+
+Comment.objects.get(id=8).dislike()
+Comment.objects.get(id=8).dislike()
+for _ in range(3):
+	Comment.objects.get(id=9).like()
+
+Comment.objects.get(id=9).dislike()
+for _ in range(6):
+	Comment.objects.get(id=10).like()
+
+Comment.objects.get(id=10).dislike()
+Comment.objects.get(id=10).dislike()
+Comment.objects.get(id=10).dislike()
+for _ in range(3):
+	Comment.objects.get(id=11).like()
+
+Comment.objects.get(id=11).dislike()
+for _ in range(3):
+	Comment.objects.get(id=12).like()
+
+Comment.objects.get(id=12).dislike()
+Post.objects.get(id=1).like()
+for _ in range(3):
+	Post.objects.get(id=2).like()
+
+Post.objects.get(id=2).dislike()
+for _ in range(4):
+	Post.objects.get(id=3).like()
+
+Post.objects.get(id=3).dislike()
+Post.objects.get(id=4).like()
+Post.objects.get(id=5).like()
+for _ in range(5):
+	Post.objects.get(id=6).like()
+
+Post.objects.get(id=6).dislike()
+
+8)
+
+Author.objects.get(id=1)
+a = Author.objects.get(id=1)
+a.update_rating()
+a.ratingAuthor
+
+b = Author.objects.get(id=2)
+b.update_rating()
+b.ratingAuthor
+
+9)
+
+d = Author.objects.order_by('-ratingAuthor')[:1]
+for i in d:
+	i.ratingAuthor
+	i.authorUser.username
+
+10)
+
+k = Post.objects.order_by('-rating')[:1]
+for e in k:
+	e.dateCreation
+	e.author.authorUser.username
+	e.rating
+	e.title
+	e.preview()
+
+11)
+g = Comment.objects.all()
+g = Comment.objects.order_by('-rating')
+for l in g:
+	l.dateCreation 
+	l.commentUser.username
+	l.rating
+	l.text
+	print('\n')
